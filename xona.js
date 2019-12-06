@@ -106,8 +106,8 @@ bot.onText(/\/kartalar/, (msg, match) => {
           const result = data.filter(item => item.name == query.data)[0];
           console.log(result)
           let md = `
-              Date: _${result.name}_
-              Pokupka: _${result.number}_
+              Name: _${result.name}_
+              Card holder number: _${result.number}_
           `;
 
           // function copyToClipboard(element) {
