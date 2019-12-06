@@ -15,7 +15,7 @@ const token = '1040511526:AAGwUViQakRsGqQOYrd4R-mfMj1wEy0nE78';
 const bot = new TelegramBot(token, {polling: true});
 // Matches "/echo [whatever]"
 
-bot.onText(/\/start/, function (msg, match) { 
+bot.onText(/\/start/, function (msg, match) {
     const chatId = msg.chat.id;
 });
         
@@ -109,7 +109,7 @@ bot.onText(/\/kartalar/, (msg, match) => {
               Date: _${result.name}_
               Pokupka: _${result.number}_
           `;
-          
+
           // function copyToClipboard(element) {
           //   var $temp = $("<input>");
           //   $("body").append($temp);
