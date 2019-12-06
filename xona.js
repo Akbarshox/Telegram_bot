@@ -48,7 +48,7 @@ bot.onText(/\/ovqat/, (msg, match) => {
 
 }) 
 
-bot.onText(/\/ovqat/, (msg, match) => {
+bot.onText(/\/non/, (msg, match) => {
 
   const chatId = msg.chat.id;
 
