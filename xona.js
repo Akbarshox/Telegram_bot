@@ -6,7 +6,7 @@ localStorage = new LocalStorage('./scratch');
 
 
 var Data = require('./kartalar.json');
-
+var lastMsg = null;
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = '1040511526:AAGwUViQakRsGqQOYrd4R-mfMj1wEy0nE78';
@@ -71,7 +71,7 @@ bot.onText(/\/kartalar/, (msg, match) => {
         [
           {
             text: 'Azizbek',
-            callback_data: 'Azizbek'  
+            callback_data: 'Azizbek👑'  
           },
           {
             text: 'Makhmudjon',
@@ -79,11 +79,50 @@ bot.onText(/\/kartalar/, (msg, match) => {
           },
           {
             text: 'Akbarshox',
-            callback_data: 'Akbarshox'  
+            callback_data: 'Akbarshox🤣'  
           },
           {
             text: 'Khumoyun',
             callback_data: 'Khumoyun'  
+          }
+        ]
+      ]
+    },
+    parse_mode: 'html'
+  });
+
+  bot.on('callback_query', query => {
+    const chatID = msg.chat.id;
+      const data = Data;
+      const result = data.filter(item => item.name == query.data)[0];
+      let md = "Name: <b>" + result.name + "</b>\nCard holder number: <pre>" + result.number + "</pre>";
+      
+      if (lastMsg != md) {
+        lastMsg = md; 
+        bot.sendMessage(chatID, md, {parse_mode : "HTML"});
+      }
+  })
+})
+
+bot.onText(/\/course/, (msg, match) => {
+ 
+  const chatId = msg.chat.id;
+
+  bot.sendMessage(chatId, 'akalar shu yerdan kurslani korselar boladi meni Akelar tuzgan, tugadi)))', {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: '＄ USD',
+            callback_data: 'USD'  
+          },
+          {
+            text: '€ EUR',
+            callback_data: 'EUR'  
+          },
+          {
+            text: '₽ RUB',
+            callback_data: 'RUB'  
           }
         ]
       ]
@@ -95,50 +134,19 @@ bot.onText(/\/kartalar/, (msg, match) => {
   bot.on('callback_query', query => {
     const id = query.message.chat.id
     
-    // request('Data', function (error, response, body) {
-    //   console.log('error:', error); // Print the error if one occurred
-    //   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    //   console.log('body:', body); // Print the HTML for the Google homepage.
-    // });
 
-        // request('http://cbu.uz/ru/arkhiv-kursov-valyut/json/', function(err, response, body) {
-          const data = Data;
-          const result = data.filter(item => item.name == query.data)[0];
-          console.log(result)
-          let md = `
-              Name: _${result.name}_
-              Card holder number: _${result.number}_
-          `;
-
-          // function copyToClipboard(element) {
-          //   var $temp = $("<input>");
-          //   $("body").append($temp);
-          //   $temp.val($(element).text()).select();
-          //   document.execCommand("copy");
-          //   $temp.remove();
-          // }
-          // copyToClipboard(result.number)
-
-          bot.sendMessage(id, md, {parse_mode: 'Markdown'});
-        })
-      })
-    // })
-  // })
-
-
-
-
-
-
-// const Telegraf = require('telegraf')
-
-// const bot = new Telegraf('1040511526:AAGwUViQakRsGqQOYrd4R-mfMj1wEy0nE78')
-// bot.start((ctx) => ctx.reply('Welcome'))
-// bot.help((ctx) => ctx.reply('Send me a sticker'))
-// bot.on('sticker', (ctx) => ctx.reply('🤣'))
-// bot.hears('hi', (ctx) => ctx.reply('Hey there'))
-// bot.hears('Qalesan', (ctx) => ctx.reply('yahshi aka'))
-// bot.hears('Akalaringa salom aytibqoy', (ctx) => ctx.reply('akalar Assalomu alaykoooom'))
-// bot.hears('ajaboo', (ctx) => ctx.reply('sokinmen aka'))
-// bot.hears('ajaboo', (ctx) => ctx.reply('sokinmen aka'))
-// bot.launch()
+    request('http://cbu.uz/ru/arkhiv-kursov-valyut/json/', function(err, response, body) {
+      const data = JSON.parse(body);
+      const result = data.filter(item => item.Ccy == query.data)[0];
+      let md = `
+        ${result.Ccy} => ${result.CcyNm_UZ}
+          Date: _${result.Date}_
+          Pokupka: _${result.Rate}_
+      `;
+      if (lastMsg != md) {
+        lastMsg = md; 
+        bot.sendMessage(id, md, {parse_mode : "Markdown"});
+      }
+    })
+  })
+});

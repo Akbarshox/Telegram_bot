@@ -41,7 +41,7 @@ bot.onText(/\/course/, (msg, match) => {
 
     request('http://cbu.uz/ru/arkhiv-kursov-valyut/json/', function(err, response, body) {
       const data = JSON.parse(body);
-      const result = data.filter(item => item.name == query.data)[0];
+      const result = data.filter(item => item.Ccy == query.data)[0];
       let md = `
         ${result.Ccy} => ${result.CcyNm_UZ}
           Date: _${result.Date}_
