@@ -9,7 +9,7 @@ var Data = require('./kartalar.json');
 var lastMsg = null;
 
 // replace the value below with the Telegram token you receive from @BotFather
-const token = '1040511526:AAGwUViQakRsGqQOYrd4R-mfMj1wEy0nE78';
+const token = '1062533016:AAGWak--xRWcTLdvhlf_FTWiL_dyuLdnRv0';
  
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
